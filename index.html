@@ -7,7 +7,7 @@
   <style>
     :root{--bg:#0b0b0c;--panel:rgba(16,16,18,.66);--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.18);--text:#f4f4f4;--muted:#9c9c9c;--soft:#707070;--root:#ffffff;--group:#d6d6d6;--item:#efefef;}
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at 50% 20%, #151516 0%, #0b0b0c 42%, #050506 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
+    html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at 50% 20%, #151516 0%, #0b0b0c 42%, #050506 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;touch-action:none}
     .app{position:relative;width:100vw;height:100vh}
     .hud{position:absolute;left:14px;top:12px;z-index:5;pointer-events:none;display:flex;flex-direction:column;gap:10px;max-width:min(860px,calc(100vw - 28px))}
     .brand{pointer-events:auto}
@@ -22,7 +22,7 @@
     .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(10,10,10,.52);font-size:12px;color:var(--muted)}
     .pill b{color:var(--text)}
     .graphWrap{position:absolute;inset:0}
-    canvas{width:100%;height:100%;display:block;cursor:grab}
+    canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
     canvas:active{cursor:grabbing}
     .info{position:absolute;right:14px;top:12px;z-index:5;width:min(360px,calc(100vw - 28px));padding:12px 14px 13px;border:1px solid var(--line);border-radius:16px;background:rgba(12,12,12,.74);backdrop-filter:blur(12px);box-shadow:0 18px 60px rgba(0,0,0,.32)}
     .info .k{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
@@ -33,7 +33,7 @@
     .tooltip.show{opacity:1;transform:translate(0,0)}
     .tooltip .t{font-weight:800;margin-bottom:4px}
     .tooltip .m{font-size:12px;color:var(--muted);line-height:1.4}
-    @media (max-width: 800px){html,body{overflow:auto}.app{height:auto;min-height:100vh}.graphWrap{position:relative;height:calc(100vh - 250px);min-height:500px}.hud{right:14px;max-width:none}.input{min-width:0;width:100%}.select{min-width:0;flex:1}.info{position:relative;right:auto;top:auto;margin:0 14px 12px 14px;width:auto}.status{position:relative;left:auto;bottom:auto;margin:0 14px 16px 14px}}
+    @media (max-width: 800px){html,body{overflow:hidden;height:100%;touch-action:none}.app{height:100dvh;min-height:100dvh;overflow:hidden}.graphWrap{position:absolute;inset:0;height:100dvh;min-height:100dvh}.hud{left:10px;right:10px;top:8px;max-width:none;gap:8px}.brand{max-width:none}h1{font-size:clamp(22px,7vw,30px)}.sub{display:none}.tools{flex-direction:column;align-items:stretch;gap:6px}.input,.select,.btn{width:100%;min-width:0;padding:10px 12px;border-radius:12px}.legend{display:none}.info{position:absolute;left:10px;right:10px;top:auto;bottom:10px;width:auto;margin:0;padding:10px 12px;border-radius:14px;max-height:18vh;overflow:auto}.info .k{font-size:11px;margin-bottom:5px}.info .v{font-size:12px;line-height:1.35}.info .s{font-size:11px;line-height:1.3}.status{display:none}.tooltip{display:none !important}}
   </style>
 </head>
 <body>
@@ -130,7 +130,8 @@
   let hoveredId = null;
   let dragging = null;
   let pan = { x: 0, y: 0 };
-  let zoom = 1;
+  const TOUCH = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  let zoom = TOUCH ? 0.76 : 1;
   let pointer = { x: 0, y: 0 };
 
   function resize() {
@@ -335,7 +336,7 @@
   }
 
   function updateTooltip(node, sx, sy) {
-    if (!node) { tip.classList.remove('show'); return; }
+    if (TOUCH || !node) { tip.classList.remove('show'); return; }
     tipT.textContent = node.label;
     tipM.textContent = node.type === 'root' ? node.summary : `${node.path || node.group} • ${node.summary}`;
     const x = Math.min(window.innerWidth - 300 - 14, sx + 16);
