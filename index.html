@@ -34,7 +34,29 @@
     .tooltip .t{font-weight:800;margin-bottom:4px}
     .tooltip .m{font-size:12px;color:var(--muted);line-height:1.4}
     .mobileDock{display:none}
-    @media (max-width: 800px){html,body{overflow:hidden;height:100%;touch-action:none}.app{height:100dvh;min-height:100dvh;overflow:hidden}.graphWrap{position:absolute;inset:0;height:100dvh;min-height:100dvh}.hud{display:none}.mobileDock{display:flex;position:absolute;left:10px;right:10px;bottom:10px;z-index:8;gap:8px;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(9,9,10,.80);backdrop-filter:blur(14px);box-shadow:0 18px 60px rgba(0,0,0,.35);overflow:auto;scrollbar-width:none}.mobileDock::-webkit-scrollbar{display:none}.dockBtn{flex:0 0 auto;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 14px;font:700 12px/1.1 inherit;letter-spacing:.01em;white-space:nowrap}.dockBtn.active{background:#f2f2f2;color:#0a0a0a}.dockBtn.primary{background:#fff;color:#0a0a0a}.info{display:none}.status{display:none}.tooltip{display:none !important}}
+    .modal{position:fixed;inset:0;z-index:20;display:none}
+    .modal.show{display:block}
+    .modalBackdrop{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px)}
+    .modalCard{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 28px));max-height:min(86vh,860px);overflow:auto;border:1px solid var(--line2);border-radius:22px;background:linear-gradient(180deg, rgba(18,18,20,.98), rgba(10,10,11,.98));box-shadow:0 30px 100px rgba(0,0,0,.55);padding:18px 18px 16px}
+    .modalTop{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}
+    .modalCrumb{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .modalTitle{margin:0;font-size:clamp(24px,3.4vw,40px);line-height:.95;letter-spacing:-.06em}
+    .modalClose{border:1px solid var(--line);background:#f2f2f2;color:#0a0a0a;border-radius:999px;padding:10px 14px;font:800 12px/1 inherit;cursor:pointer;white-space:nowrap}
+    .modalMeta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+    .metaBox{padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+    .metaBox .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .metaBox .v{font-size:13px;line-height:1.45;color:var(--text)}
+    .modalContent{display:grid;gap:12px}
+    .noteBlock{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:14px 14px 13px}
+    .noteBlock h3{margin:0 0 8px;font-size:14px;letter-spacing:.02em}
+    .noteBlock p{margin:0 0 10px;color:var(--text);font-size:14px;line-height:1.6}
+    .noteBlock p:last-child{margin-bottom:0}
+    .noteBlock .muted{color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{border:1px solid var(--line);border-radius:999px;padding:8px 10px;font-size:12px;color:var(--text);background:rgba(255,255,255,.03)}
+    .callout{border-left:3px solid #f2f2f2;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:12px}
+    .code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.55;padding:12px;border-radius:14px;background:#050505;border:1px solid var(--line);overflow:auto}
+    @media (max-width: 800px){html,body{overflow:hidden;height:100%;touch-action:none}.app{height:100dvh;min-height:100dvh;overflow:hidden}.graphWrap{position:absolute;inset:0;height:100dvh;min-height:100dvh}.hud{display:none}.mobileDock{display:flex;position:absolute;left:10px;right:10px;bottom:10px;z-index:8;gap:8px;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(9,9,10,.80);backdrop-filter:blur(14px);box-shadow:0 18px 60px rgba(0,0,0,.35);overflow:auto;scrollbar-width:none}.mobileDock::-webkit-scrollbar{display:none}.dockBtn{flex:0 0 auto;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 14px;font:700 12px/1.1 inherit;letter-spacing:.01em;white-space:nowrap}.dockBtn.active{background:#f2f2f2;color:#0a0a0a}.dockBtn.primary{background:#fff;color:#0a0a0a}.info{display:none}.status{display:none}.tooltip{display:none !important}.modalCard{left:10px;right:10px;top:10px;transform:none;width:auto;max-height:calc(100dvh - 20px);padding:14px;border-radius:18px}.modalTop{flex-direction:column;align-items:stretch}.modalMeta{grid-template-columns:1fr 1fr}.modalClose{width:100%}}
   </style>
 </head>
 <body>
@@ -84,10 +106,29 @@
   <div class="status" id="status">Nós carregados: 0</div>
 </div>
 
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modalBackdrop" id="modalBackdrop"></div>
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modalTop">
+      <div>
+        <div class="modalCrumb" id="modalCrumb">Obsidian note</div>
+        <h2 class="modalTitle" id="modalTitle">Note</h2>
+      </div>
+      <button class="modalClose" id="modalClose" type="button">Fechar</button>
+    </div>
+    <div class="modalMeta" id="modalMeta"></div>
+    <div class="modalContent" id="modalContent"></div>
+  </div>
+</div>
+
 <script>
   const DATA = {
     root: { id: 'tania', label: 'TanIA', type: 'root', group: 'root', summary: 'Núcleo do cérebro.' },
     signature: { id: 'tania-selo', label: 'Selo TanIA', type: 'signature', group: 'root', summary: 'Assinatura visual exclusiva da TanIA.' },
+    people: [
+      { id: 'silvia', label: 'silvIA', type: 'person', group: 'root', summary: 'Nó pessoal ligado ao cérebro TanIA.', role: 'Silvia' },
+      { id: 'jorge', label: 'Jorge', type: 'person', group: 'root', summary: 'Nó pessoal ligado ao cérebro TanIA.', role: 'Jorge' },
+    ],
     groups: [
       { id: 'core', label: 'Core', group: 'core', summary: 'Arquivos centrais do AI Brain.' },
       { id: 'hermes', label: 'Hermes', group: 'hermes', summary: 'Skills e protocolos Hermes.' },
@@ -135,12 +176,21 @@
   const status = document.getElementById('status');
   const mobileDock = document.getElementById('mobileDock');
   const dockButtons = [...document.querySelectorAll('.dockBtn')];
+  const modal = document.getElementById('modal');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalClose = document.getElementById('modalClose');
+  const modalCrumb = document.getElementById('modalCrumb');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMeta = document.getElementById('modalMeta');
+  const modalContent = document.getElementById('modalContent');
 
   let W = 0, H = 0, DPR = 1;
   let nodes = [], links = [];
   let selectedId = null;
   let hoveredId = null;
   let dragging = null;
+  let dragMoved = false;
+  let dragStart = { x: 0, y: 0 };
   let pan = { x: 0, y: 0 };
   const TOUCH = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   let zoom = TOUCH ? 0.76 : 1;
@@ -157,6 +207,91 @@
 
   function norm(s){ return String(s || '').toLowerCase(); }
 
+  function esc(s) {
+    return String(s ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function modalFor(node) {
+    const isRoot = node.type === 'root';
+    const isSignature = node.type === 'signature';
+    const isPerson = node.type === 'person';
+    const title = node.label;
+    const crumb = isRoot ? 'Obsidian / graph root' : (isPerson ? 'Obsidian / personal note' : (node.type === 'group' ? `Obsidian / ${node.group}` : `Obsidian / ${node.group} / ${node.label}`));
+    const meta = [];
+    meta.push({ k: 'Tipo', v: isRoot ? 'root' : node.type });
+    meta.push({ k: 'Grupo', v: node.group || '-' });
+    meta.push({ k: 'Ligação', v: isRoot ? 'Núcleo' : (node.path || node.summary || '-') });
+    meta.push({ k: 'Estado', v: isSignature ? 'assinatura' : (isPerson ? 'pessoa' : 'nota') });
+
+    let body = '';
+    if (isRoot) {
+      body = `
+        <div class="noteBlock">
+          <h3>Visão geral</h3>
+          <p>TanIA é o núcleo do grafo. Clique num nó para abrir um painel de nota no estilo Obsidian, com leitura rápida e contexto direto.</p>
+          <div class="callout">Essa visualização funciona melhor em tela cheia: nós pequenos, foco rápido e detalhes no modal.</div>
+        </div>
+        <div class="noteBlock">
+          <h3>Conectado agora</h3>
+          <div class="chips">
+            <span class="chip">Core</span><span class="chip">Hermes</span><span class="chip">Claude</span><span class="chip">silvIA</span><span class="chip">Jorge</span>
+          </div>
+        </div>`;
+    } else if (isPerson) {
+      body = `
+        <div class="noteBlock">
+          <h3>${esc(node.label)}</h3>
+          <p>${esc(node.summary)}</p>
+          <div class="callout">Nota pessoal ligada ao núcleo TanIA. Esse nó abre como nota rápida, sem dashboard no caminho.</div>
+        </div>
+        <div class="noteBlock">
+          <h3>Propriedades</h3>
+          <div class="code">name: ${esc(node.label)}\nrole: ${esc(node.role || node.label)}\nlink: TanIA\nview: obsidian-note</div>
+        </div>`;
+    } else {
+      const links = nodes.filter(n => n.id !== node.id && linksRelated(node, n)).slice(0, 8);
+      body = `
+        <div class="noteBlock">
+          <h3>Resumo</h3>
+          <p>${esc(node.summary || 'Sem resumo disponível.')}</p>
+          <p class="muted">${esc(node.path || node.group || '')}</p>
+        </div>
+        <div class="noteBlock">
+          <h3>Propriedades</h3>
+          <div class="code">title: ${esc(node.label)}\npath: ${esc(node.path || node.group || '-') }\ngroup: ${esc(node.group || '-')}\ntype: ${esc(node.type)}</div>
+        </div>
+        <div class="noteBlock">
+          <h3>Notas ligadas</h3>
+          <div class="chips">${links.map(n => `<span class="chip">${esc(n.label)}</span>`).join('') || '<span class="chip">Sem ligações visíveis</span>'}</div>
+        </div>`;
+    }
+    return { crumb, title, meta, body };
+  }
+
+  function linksRelated(source, target) {
+    return links.some(l => (l.source.id === source.id && l.target.id === target.id) || (l.target.id === source.id && l.source.id === target.id));
+  }
+
+  function openModal(node) {
+    const panel = modalFor(node);
+    modalCrumb.textContent = panel.crumb;
+    modalTitle.textContent = panel.title;
+    modalMeta.innerHTML = panel.meta.map(m => `<div class="metaBox"><div class="k">${esc(m.k)}</div><div class="v">${esc(m.v)}</div></div>`).join('');
+    modalContent.innerHTML = panel.body;
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
   function build() {
     const scopeVal = scope.value;
     const qv = norm(q.value.trim());
@@ -168,6 +303,12 @@
 
     const signature = { id: DATA.signature.id, label: DATA.signature.label, type: 'signature', group: 'root', summary: DATA.signature.summary, x: 0, y: 0, vx: 0, vy: 0, fx: null, fy: null, r: 12 };
     keep.push(signature); map.set(signature.id, signature);
+
+    const people = DATA.people.map((p, idx) => {
+      const node = { id: p.id, label: p.label, type: 'person', group: 'root', summary: p.summary, role: p.role, x: 0, y: 0, vx: 0, vy: 0, fx: null, fy: null, r: 12 };
+      keep.push(node); map.set(node.id, node);
+      return { node, idx };
+    });
 
     const groupNodes = [];
     for (const g of DATA.groups) {
@@ -193,6 +334,7 @@
       for (const item of items) baseLinks.push([gn.id, `${gn.id}:${item.id}`]);
     }
     baseLinks.push([root.id, signature.id]);
+    for (const person of people) baseLinks.push([root.id, person.node.id]);
     // subtle cross-links to mimic dense graph view
     if (map.has('core')) {
       for (const k of ['hermes','claude']) if (map.has(k)) baseLinks.push(['core', k]);
@@ -210,6 +352,12 @@
     });
     signature.x = root.x + 72;
     signature.y = root.y - 78;
+    people.forEach((person, idx) => {
+      const a = idx === 0 ? -0.58 : 0.68;
+      const r = idx === 0 ? 126 : 132;
+      person.node.x = root.x + Math.cos(a) * r;
+      person.node.y = root.y + Math.sin(a) * r;
+    });
     keep.filter(n => n.type === 'item').forEach((n, i) => {
       const g = groupNodes.find(x => n.id.startsWith(x.node.id + ':'))?.node;
       const jitter = 70 + (i % 5) * 10;
@@ -348,6 +496,13 @@
         if (focus && focus.id === n.id) {
           ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 5, 0, Math.PI*2); ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 2; ctx.stroke();
         }
+      } else if (n.type === 'person') {
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(n.x, n.y, 11, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.42)'; ctx.lineWidth = 1.2; ctx.stroke();
+        ctx.fillStyle = '#0a0a0a'; ctx.font = '900 8px Inter, system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.label.slice(0,1).toUpperCase(), n.x, n.y + .5);
+        if (focus && focus.id === n.id) {
+          ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(n.x, n.y, 16, 0, Math.PI*2); ctx.stroke();
+        }
       } else {
         ctx.fillStyle = '#efefef'; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI*2); ctx.fill();
         if (focus && n.id === focus.id) {
@@ -402,6 +557,8 @@
   canvas.addEventListener('mousedown', (e) => {
     const rect = canvas.getBoundingClientRect();
     pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    dragStart = { x: pointer.x, y: pointer.y };
+    dragMoved = false;
     const n = nearestNode(pointer.x, pointer.y);
     if (n) {
       dragging = n;
@@ -416,12 +573,16 @@
     if (!dragging) return;
     const rect = canvas.getBoundingClientRect();
     pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    if (Math.abs(pointer.x - dragStart.x) > 4 || Math.abs(pointer.y - dragStart.y) > 4) dragMoved = true;
   });
   canvas.addEventListener('click', (e) => {
+    if (dragMoved) return;
     const rect = canvas.getBoundingClientRect();
     const n = nearestNode(e.clientX - rect.left, e.clientY - rect.top);
     if (!n) {
-      selectedId = null;
+      const rootNode = nodes.find(node => node.type === 'root');
+      selectedId = rootNode ? rootNode.id : null;
+      if (rootNode) openModal(rootNode);
       infoK.textContent = 'Visão geral';
       infoV.textContent = 'Passe o mouse ou clique em um nó.';
       infoS.textContent = 'Dica: a busca reduz a malha e destaca os nós conectados.';
@@ -430,6 +591,7 @@
       infoK.textContent = n.label;
       infoV.textContent = n.type === 'root' ? 'Núcleo central da malha.' : (n.path || n.summary);
       infoS.textContent = n.summary;
+      openModal(n);
     }
   });
 
@@ -464,6 +626,7 @@
     hoveredId = null;
     pan = { x: 0, y: 0 };
     zoom = TOUCH ? 0.76 : 1;
+    closeModal();
     build();
     infoK.textContent = 'Visão geral';
     infoV.textContent = 'Passe o mouse ou clique em um nó.';
@@ -485,6 +648,10 @@
       if (nextScope) setScope(nextScope);
     });
   });
+
+  modalBackdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
   window.addEventListener('resize', resize);
 
