@@ -3,7 +3,7 @@
 Objetivo: ter **um canal funcional e claro** para ordens do Luiz, entendido da
 mesma forma por:
 - TanIA (Hermes/VPS)
-- Jorge (PC + Super Cérebro local)
+- Jorge (PC + Punk Records local)
 - silvIA (agente remoto)
 
 Canal principal de comunicação em tempo real:
@@ -83,10 +83,10 @@ observacoes: se o MCP estiver offline, aviso aqui.
 
 ---
 
-## 3. Regras de uso do Super Cérebro / AI Brain
+## 3. Regras de uso do Punk Records / AI Brain
 
 - Sempre que uma ordem envolver contexto grande, os agentes devem:
-  1. **Buscar primeiro no Super Cérebro** (`brain_search`).
+  1. **Buscar primeiro no Punk Records** (`brain_search`).
   2. **Ler somente o necessario** (`brain_read_file`).
   3. **Responder de forma resumida**, citando paths.
 

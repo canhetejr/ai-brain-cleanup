@@ -1,4 +1,4 @@
-# 🧠 Super Cérebro Local
+# 🧠 Punk Records Local
 
 Gerado: `2026-06-24 15:59`
 

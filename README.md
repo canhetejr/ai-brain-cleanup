@@ -24,7 +24,7 @@ Contagem por categoria:
 Como buscar:
 ```bash
 python ~/.ai-brain/scripts/search_ai_brain.py 'hermes OR claude' 20
-python ~/.ai-brain/scripts/rag_query.py 'RAG MCP Super Cérebro' --limit 8
+python ~/.ai-brain/scripts/rag_query.py 'RAG MCP Punk Records' --limit 8
 ```
 
 Como atualizar:

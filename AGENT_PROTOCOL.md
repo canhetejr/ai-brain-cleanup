@@ -1,6 +1,6 @@
-# Protocolo do Super Cérebro Local para agentes de IA
+# Protocolo do Punk Records Local para agentes de IA
 
-Este computador possui um índice local compartilhado de contexto chamado **Super Cérebro Local**.
+Este computador possui um índice local compartilhado de contexto chamado **Punk Records Local**.
 Todo agente de IA que roda nesta máquina deve consultar esse cérebro antes de pedir contexto repetido ao usuário, antes de assumir estado do ambiente e antes de trabalhar em projetos locais.
 
 ## Raiz
@@ -13,11 +13,11 @@ Todo agente de IA que roda nesta máquina deve consultar esse cérebro antes de 
 - Script de busca: `/home/canhete/.ai-brain/scripts/search_ai_brain.py`
 - Script de reindexação: `/home/canhete/.ai-brain/scripts/reindex_ai_brain.py`
 - Script de view: `/home/canhete/.ai-brain/scripts/generate_super_brain_view.py`
-- Cópia no Obsidian: `/home/canhete/Área de trabalho/Obsidian/40 - AI Brain/🧠 Super Cérebro Local.md`
+- Cópia no Obsidian: `/home/canhete/Área de trabalho/Obsidian/40 - AI Brain/🧠 Punk Records Local.md`
 
 ## Regra principal
 
-Antes de responder sobre qualquer um destes assuntos, consulte o Super Cérebro:
+Antes de responder sobre qualquer um destes assuntos, consulte o Punk Records:
 
 - Hermes Agent, Claude Code, Codex, Gemini, Cursor, Antigravity, Copilot ou outros agentes.
 - Projetos locais, workspaces, repositórios, dashboards, Obsidian, organização do PC.
@@ -65,7 +65,7 @@ python ~/.ai-brain/scripts/generate_super_brain_view.py
 ## Como usar no raciocínio
 
 1. Identifique palavras-chave do pedido do usuário.
-2. Busque no Super Cérebro.
+2. Busque no Punk Records.
 3. Abra apenas os arquivos relevantes encontrados.
 4. Use o contexto encontrado para agir.
 5. Se descobrir uma convenção durável, registre no mecanismo de memória/skill apropriado do agente.

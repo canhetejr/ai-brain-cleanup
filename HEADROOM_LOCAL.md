@@ -1,12 +1,12 @@
 # HEADROOM_LOCAL — Estratégia de contexto para TanIA
 
-> **Goal:** Usar o Super Cérebro + AI Brain como fonte principal
+> **Goal:** Usar o Punk Records + AI Brain como fonte principal
 > e aplicar estratégia tipo *Headroom* para compressão de contexto
 > em todas as tarefas.
 
 ## 1. Fontes de verdade
 
-1. **Super Cérebro Local (MCP)**
+1. **Punk Records Local (MCP)**
    - Servidor: `super_cerebro_local`
    - Ferramentas: `brain_search`, `brain_read_file`, `brain_stats`
    - Raiz do índice: `/root/obsidian-vault/AI Brain/ai-brain`
@@ -24,7 +24,7 @@
 
 Sempre que o contexto começar a crescer ou envolver múltiplos arquivos:
 
-1. **Buscar primeiro no Super Cérebro**
+1. **Buscar primeiro no Punk Records**
    - Usar `brain_search(query, limit)` para encontrar trechos relevantes.
    - Citar paths reais dos arquivos quando responder.
 
@@ -44,7 +44,7 @@ Sempre que o contexto começar a crescer ou envolver múltiplos arquivos:
 
 ## 3. Padrão de resposta resumida
 
-Quando responder usando o Super Cérebro / AI Brain, preferir formato curto:
+Quando responder usando o Punk Records / AI Brain, preferir formato curto:
 
 ```text
 [PERGUNTA]
@@ -57,7 +57,7 @@ Exemplo:
 
 ```text
 Resumo:
-- O Super Cérebro tem 1.415 itens e ~6,78M caracteres indexados.
+- O Punk Records tem 1.415 itens e ~6,78M caracteres indexados.
 - A ponte com Nextcloud está simétrica via /home/canhete/Nextcloud/AI Brain/.ai-brain.
 - O MCP super_cerebro_local está ativo com brain_search/brain_read_file/brain_stats.
 
@@ -86,7 +86,7 @@ Regra:
 ## 5. Limites / o que *não* fazer
 
 - Não despejar arquivos enormes crus na conversa se puder buscar/resumir.
-- Não ignorar o Super Cérebro quando o tema claramente já está indexado (AI Brain, agentes, projetos recorrentes).
+- Não ignorar o Punk Records quando o tema claramente já está indexado (AI Brain, agentes, projetos recorrentes).
 - Não tratar o Nextcloud como fonte parcial: ou está sincronizado (confirmado) ou usar ponte por arquivo.
 
 ---
